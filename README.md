@@ -28,3 +28,8 @@ and APIs are likely to change. Use at your own risk.
 >>> clip.thumbnails.large
 'http://gameclipscontent-t2005.xboxlive.com/00090000014d6bae-7638b9fd-2a19-4ef1-b621-505a6ac93488/Thumbnail_Large.PNG'
 ```
+
+
+### Links
+
+- [Roadmap](https://trello.com/b/onAwDz0V/python-xbox)
