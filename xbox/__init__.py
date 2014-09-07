@@ -12,6 +12,13 @@ from .exceptions import AuthenticationException
 class Client(object):
     '''
     Base API client object handling authentication
+    and making requests.
+
+    :ivar bool authenticated: whether client is authed
+    :ivar string login: email of authed user
+    :ivar string user_xuid: xuid of authed user
+    :ivar string AUTHORIZATION_HEADER: value of HTTP Authorization header
+
     '''
 
     def __init__(self, login):
@@ -19,7 +26,7 @@ class Client(object):
         self.login = login
         self.authenticated = False
 
-    def get(self, url, **kw):
+    def _get(self, url, **kw):
         '''
         Makes a GET request, setting Authorization
         header by default
@@ -31,7 +38,7 @@ class Client(object):
         kw['headers'] = headers
         return self.session.get(url, **kw)
 
-    def post(self, url, **kw):
+    def _post(self, url, **kw):
         '''
         Makes a POST request, setting Authorization
         header by default
@@ -41,7 +48,7 @@ class Client(object):
         kw['headers'] = headers
         return self.session.post(url, **kw)
 
-    def post_json(self, url, data, **kw):
+    def _post_json(self, url, data, **kw):
         '''
         Makes a POST request, setting Authorization
         and Content-Type headers by default
@@ -53,10 +60,25 @@ class Client(object):
 
         kw['headers'] = headers
         kw['data'] = data
-        return self.post(url, **kw)
+        return self._post(url, **kw)
 
     @classmethod
     def authenticate(cls, login=None, password=None):
+        '''
+        Creates an authenticated instance of Client.
+
+        ``login`` and ``password`` default to the environment
+        variables ``MS_LOGIN`` and ``MS_PASSWD`` respectively.
+
+
+        :param login: Email address associated with a microsoft account
+        :param password: Matching password
+
+        :raises: :class:`~xbox.exceptions.AuthenticationException`
+
+        :returns: Instance of :class:`~xbox.Client`
+
+        '''
         if login is None:
             login = os.environ.get('MS_LOGIN')
 
@@ -156,6 +178,12 @@ class Client(object):
         return self
 
     def gamertag(self, gamertag):
+        '''
+        :param gamertag: gamertag of desired user
+
+        :returns: :class:`~xbox.resource.GamerProfile` instance for ``gamertag``
+        '''
+
         from .resource import GamerProfile
         return GamerProfile.from_gamertag(self, gamertag)
 

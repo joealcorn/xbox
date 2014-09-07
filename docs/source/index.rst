@@ -11,6 +11,14 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   resource
+   exceptions
+
+
+.. autoclass:: xbox.Client
+    :members:
+
+
 
 
 Indices and tables

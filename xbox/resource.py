@@ -2,6 +2,14 @@ from .exceptions import GamertagNotFound
 
 
 class GamerProfile(object):
+    '''
+    Represents an xbox live user.
+
+    :ivar string xuid: xuid of user
+    :ivar string gamertag: gamertag of user
+    :ivar string gamerscore: gamerscore of user
+    :ivar string gamerpic: url for gamerpic of user
+    '''
 
     def __init__(self, client, xuid, settings, raw_json):
         self.client = client
@@ -18,6 +26,18 @@ class GamerProfile(object):
 
     @classmethod
     def from_gamertag(cls, client, gamertag):
+        '''
+        Instantiates an instance of ``GamerProfile`` from
+        a gamertag
+
+        :param client: :class:`~xbox.Client` instance
+        :param gamertag: Gamertag to look up
+
+        :raises: :class:`~xbox.exceptions.GamertagNotFound`
+
+        :returns: :class:`~xbox.resource.GamerProfile` instance
+        '''
+
         settings = [
             'AppDisplayName',
             'DisplayPic',
@@ -33,7 +53,7 @@ class GamerProfile(object):
         )
         headers = {'x-xbl-contract-version': 2}
 
-        resp = client.get(url, headers=headers)
+        resp = client._get(url, headers=headers)
         if resp.status_code == 404:
             raise GamertagNotFound('No such gamertag: %s' % gamertag)
 

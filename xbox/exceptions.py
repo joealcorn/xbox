@@ -7,7 +7,10 @@ class XboxException(Exception):
 
 
 class AuthenticationException(XboxException):
-    pass
+    '''
+    Raised when logging in fails, likely due to
+    incorrect auth credentials
+    '''
 
 
 class NotFoundException(XboxException):
