@@ -3,6 +3,11 @@
 This is unreleased software. As such things are may be broken
 and APIs are likely to change. Use at your own risk.
 
+### About
+
+This project is a wrapper around Microsoft's set of private APIs
+in use by the Xbox One and related apps.
+
 ### Goals
 
 The main goals of this project are to achieve a decent, usable API,
