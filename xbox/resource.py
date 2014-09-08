@@ -11,10 +11,10 @@ class GamerProfile(object):
     :ivar string gamerpic: url for gamerpic of user
     '''
 
-    def __init__(self, client, xuid, settings, raw_json):
+    def __init__(self, client, xuid, settings, user_data):
         self.client = client
         self.xuid = xuid
-        self.raw_json = raw_json
+        self.raw_json = user_data
         name_map = {
             'Gamertag': 'gamertag',
             'Gamerscore': 'gamerscore',
