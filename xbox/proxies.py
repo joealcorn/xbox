@@ -66,15 +66,13 @@ class LazyProxy(object):
 
 
 class UserProxy(LazyProxy):
-    def __init__(self, client, xuid):
-        self.__dict__['client'] = client
+    def __init__(self, xuid):
         self.__dict__['xuid'] = xuid
 
     def resolve(self):
         from xbox.resource import GamerProfile
-        client = self.__dict__['client']
         xuid = self.__dict__['xuid']
 
-        gt = GamerProfile.from_xuid(client, xuid)
+        gt = GamerProfile.from_xuid(xuid)
         self.__dict__['_resolved'] = True
         return gt

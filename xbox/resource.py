@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from . import client
 from .exceptions import GamertagNotFound, ClipNotFound
 from .proxies import UserProxy
 from .utils import DotNotationDict
@@ -15,8 +16,7 @@ class GamerProfile(object):
     :var string gamerpic: url for gamerpic of user
     '''
 
-    def __init__(self, client, xuid, settings, user_data):
-        self.client = client
+    def __init__(self, xuid, settings, user_data):
         self.xuid = xuid
         self.raw_json = user_data
         name_map = {
@@ -29,46 +29,44 @@ class GamerProfile(object):
                 setattr(self, name_map[setting['id']], setting['value'])
 
     @classmethod
-    def from_xuid(cls, client, xuid):
+    def from_xuid(cls, xuid):
         '''
         Instantiates an instance of ``GamerProfile`` from
         an xuid
 
-        :param client: :class:`~xbox.Client` instance
         :param xuid: Xuid to look up
 
         :raises: :class:`~xbox.exceptions.GamertagNotFound`
 
-        :returns: :class:`~xbox.resource.GamerProfile` instance
+        :returns: :class:`~xbox.GamerProfile` instance
         '''
 
         url = 'https://profile.xboxlive.com/users/xuid(%s)/profile/settings' % xuid
         try:
-            return cls._fetch(client, url)
+            return cls._fetch(url)
         except GamertagNotFound:
             raise GamertagNotFound('No such user: %s' % xuid)
 
     @classmethod
-    def from_gamertag(cls, client, gamertag):
+    def from_gamertag(cls, gamertag):
         '''
         Instantiates an instance of ``GamerProfile`` from
         a gamertag
 
-        :param client: :class:`~xbox.Client` instance
         :param gamertag: Gamertag to look up
 
         :raises: :class:`~xbox.exceptions.GamertagNotFound`
 
-        :returns: :class:`~xbox.resource.GamerProfile` instance
+        :returns: :class:`~xbox.GamerProfile` instance
         '''
         url = 'https://profile.xboxlive.com/users/gt(%s)/profile/settings' % gamertag
         try:
-            return cls._fetch(client, url)
+            return cls._fetch(url)
         except GamertagNotFound:
             raise GamertagNotFound('No such user: %s' % gamertag)
 
     @classmethod
-    def _fetch(cls, client, base_url):
+    def _fetch(cls, base_url):
         settings = [
             'AppDisplayName',
             'DisplayPic',
@@ -115,15 +113,15 @@ class GamerProfile(object):
 
         raw_json = resp.json()
         user = raw_json['profileUsers'][0]
-        return cls(client, user['id'], user['settings'], raw_json)
+        return cls(user['id'], user['settings'], raw_json)
 
     def clips(self):
         '''
         Gets the latest clips made by this user
 
-        :returns: Iterator of :class:`~xbox.resource.Clip` instances
+        :returns: Iterator of :class:`~xbox.Clip` instances
         '''
-        return Clip.latest_from_user(self.client, self)
+        return Clip.latest_from_user(self)
 
     def __repr__(self):
         return '<xbox.resource.GamerProfile: %s (%s)>' % (
@@ -152,9 +150,8 @@ class Clip(object):
 
     '''
 
-    def __init__(self, client, user, clip_data):
+    def __init__(self, user, clip_data):
         self.raw_json = clip_data
-        self.client = client
         self.user = user
         self.clip_id = clip_data['gameClipId']
         self.scid = clip_data['scid']
@@ -183,11 +180,10 @@ class Clip(object):
                 self.media_url = uri['uri']
 
     @classmethod
-    def get(cls, client, xuid, scid, clip_id):
+    def get(cls, xuid, scid, clip_id):
         '''
         Gets a specific game clip
 
-        :param client: :class:`~xbox.Client` instance
         :param xuid: xuid of an xbox live user
         :param scid: scid of a clip
         :param clip_id: id of a clip
@@ -212,39 +208,37 @@ class Clip(object):
         # as we don't have the user object let's
         # create a lazily evaluated proxy object
         # that will fetch it only when required
-        user = UserProxy(client, xuid)
-        return cls(client, user, data['gameClip'])
+        user = UserProxy(xuid)
+        return cls(user, data['gameClip'])
 
     @classmethod
-    def saved_from_user(cls, client, user):
+    def saved_from_user(cls, user):
         '''
         Gets all clips 'saved' by a user.
 
-        :param client: :class:`~xbox.Client` instance
-        :param user: :class:`~xbox.resource.GamerProfile` instance
+        :param user: :class:`~xbox.GamerProfile` instance
 
-        :returns: Iterator of :class:`~xbox.resource.Clip` instances
+        :returns: Iterator of :class:`~xbox.Clip` instances
         '''
 
         url = 'https://gameclipsmetadata.xboxlive.com/users/xuid(%s)/saved'
         resp = client._get(url % user.xuid)
         data = resp.json()
         for clip in data['gameClips']:
-            yield cls(client, user, clip)
+            yield cls(user, clip)
 
     @classmethod
-    def latest_from_user(cls, client, user):
+    def latest_from_user(cls, user):
         '''
         Gets all clips, saved and unsaved
 
-        :param client: :class:`~xbox.Client` instance
-        :param user: :class:`~xbox.resource.GamerProfile` instance
+        :param user: :class:`~xbox.GamerProfile` instance
 
-        :returns: Iterator of :class:`~xbox.resource.Clip` instances
+        :returns: Iterator of :class:`~xbox.Clip` instances
         '''
 
         url = 'https://gameclipsmetadata.xboxlive.com/users/xuid(%s)/clips'
         resp = client._get(url % user.xuid)
         data = resp.json()
         for clip in data['gameClips']:
-            yield cls(client, user, clip)
+            yield cls(user, clip)
