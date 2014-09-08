@@ -3,7 +3,7 @@
 This is unreleased software. As such things are may be broken
 and APIs are likely to change. Use at your own risk.
 
-[![https://readthedocs.org/projects/xbox/badge/?version=latest](Documentation)](http://xbox.readthedocs.org/en/latest/)
+[![Documentation](https://readthedocs.org/projects/xbox/badge/?version=latest)](http://xbox.readthedocs.org/en/latest/)
 
 ### About
 
