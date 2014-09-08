@@ -25,6 +25,26 @@ class GamerProfile(object):
                 setattr(self, name_map[setting['id']], setting['value'])
 
     @classmethod
+    def from_xuid(cls, client, xuid):
+        '''
+        Instantiates an instance of ``GamerProfile`` from
+        an xuid
+
+        :param client: :class:`~xbox.Client` instance
+        :param xuid: Xuid to look up
+
+        :raises: :class:`~xbox.exceptions.GamertagNotFound`
+
+        :returns: :class:`~xbox.resource.GamerProfile` instance
+        '''
+
+        url = 'https://profile.xboxlive.com/users/xuid(%s)/profile/settings' % xuid
+        try:
+            return cls._fetch(client, url)
+        except GamertagNotFound:
+            raise GamertagNotFound('No such user: %s' % xuid)
+
+    @classmethod
     def from_gamertag(cls, client, gamertag):
         '''
         Instantiates an instance of ``GamerProfile`` from
@@ -37,7 +57,14 @@ class GamerProfile(object):
 
         :returns: :class:`~xbox.resource.GamerProfile` instance
         '''
+        url = 'https://profile.xboxlive.com/users/gt(%s)/profile/settings' % gamertag
+        try:
+            return cls._fetch(client, url)
+        except GamertagNotFound:
+            raise GamertagNotFound('No such user: %s' % gamertag)
 
+    @classmethod
+    def _fetch(cls, client, base_url):
         settings = [
             'AppDisplayName',
             'DisplayPic',
@@ -47,15 +74,12 @@ class GamerProfile(object):
             'XboxOneRep',
         ]
 
-        qs = 'settings=%s'
-        url = 'https://profile.xboxlive.com/users/gt(%s)/profile/settings?%s' % (
-            gamertag, qs % ','.join(settings)
-        )
+        qs = '?settings=%s' % ','.join(settings)
         headers = {'x-xbl-contract-version': 2}
 
-        resp = client._get(url, headers=headers)
+        resp = client._get(base_url + qs, headers=headers)
         if resp.status_code == 404:
-            raise GamertagNotFound('No such gamertag: %s' % gamertag)
+            raise GamertagNotFound('No such user')
 
         # example payload:
         # {
