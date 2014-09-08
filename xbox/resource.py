@@ -1,14 +1,18 @@
-from .exceptions import GamertagNotFound
+from datetime import datetime
+
+from .exceptions import GamertagNotFound, ClipNotFound
+from .proxies import UserProxy
+from .utils import DotNotationDict
 
 
 class GamerProfile(object):
     '''
     Represents an xbox live user.
 
-    :ivar string xuid: xuid of user
-    :ivar string gamertag: gamertag of user
-    :ivar string gamerscore: gamerscore of user
-    :ivar string gamerpic: url for gamerpic of user
+    :var string xuid: xuid of user
+    :var string gamertag: gamertag of user
+    :var string gamerscore: gamerscore of user
+    :var string gamerpic: url for gamerpic of user
     '''
 
     def __init__(self, client, xuid, settings, user_data):
@@ -113,7 +117,134 @@ class GamerProfile(object):
         user = raw_json['profileUsers'][0]
         return cls(client, user['id'], user['settings'], raw_json)
 
+    def clips(self):
+        '''
+        Gets the latest clips made by this user
+
+        :returns: Iterator of :class:`~xbox.resource.Clip` instances
+        '''
+        return Clip.latest_from_user(self.client, self)
+
     def __repr__(self):
         return '<xbox.resource.GamerProfile: %s (%s)>' % (
             self.gamertag, self.xuid
         )
+
+
+class Clip(object):
+    '''
+    Represents a single game clip.
+
+    :var user: User that made the clip
+    :var string clip_id: Unique id of the clip
+    :var string scid: Unique SCID of the clip
+    :var string duration: Duration, in seconds, of the clip
+    :var string name: Name of the clip. Can be ``''``
+    :var bool saved: Whether the user has saved the clip.
+        Clips that aren't saved eventually expire
+    :var string state:
+    :var string views: Number of views the clip has had
+    :var string rating: Clip rating
+    :var string ratings: Number of ratings the clip has received
+    :var string caption: User-defined clip caption
+    :var dict thumbnails: Thumbnail URLs for the clip
+    :var datetime recorded: Date and time clip was made
+
+    '''
+
+    def __init__(self, client, user, clip_data):
+        self.raw_json = clip_data
+        self.client = client
+        self.user = user
+        self.clip_id = clip_data['gameClipId']
+        self.scid = clip_data['scid']
+        self.duration = clip_data['durationInSeconds']
+        self.user = user
+        self.name = clip_data['clipName']
+        self.saved = clip_data['savedByUser']
+        self.state = clip_data['state']
+        self.views = clip_data['views']
+        self.rating = clip_data['rating']
+        self.ratings = clip_data['ratingCount']
+        self.caption = clip_data['userCaption']
+        self.thumbnails = DotNotationDict()
+        self.recorded = datetime.strptime(
+            clip_data['dateRecorded'], '%Y-%m-%dT%H:%M:%SZ'
+        )
+
+        for thumb in clip_data['thumbnails']:
+            if thumb['thumbnailType'] == 'Small':
+                self.thumbnails.small = thumb['uri']
+            elif thumb['thumbnailType'] == 'Large':
+                self.thumbnails.large = thumb['uri']
+
+        for uri in clip_data['gameClipUris']:
+            if uri['uriType'] == 'Download':
+                self.media_url = uri['uri']
+
+    @classmethod
+    def get(cls, client, xuid, scid, clip_id):
+        '''
+        Gets a specific game clip
+
+        :param client: :class:`~xbox.Client` instance
+        :param xuid: xuid of an xbox live user
+        :param scid: scid of a clip
+        :param clip_id: id of a clip
+        '''
+        url = (
+            'https://gameclipsmetadata.xboxlive.com/users'
+            '/xuid(%(xuid)s)/scids/%(scid)s/clips/%(clip_id)s' % {
+                'xuid': xuid,
+                'scid': scid,
+                'clip_id': clip_id,
+            }
+        )
+        resp = client._get(url)
+        if resp.status_code == 404:
+            msg = 'Could not find clip: xuid=%s, scid=%s, clip_id=%s' % (
+                xuid, scid, clip_id,
+            )
+            raise ClipNotFound(msg)
+
+        data = resp.json()
+
+        # as we don't have the user object let's
+        # create a lazily evaluated proxy object
+        # that will fetch it only when required
+        user = UserProxy(client, xuid)
+        return cls(client, user, data['gameClip'])
+
+    @classmethod
+    def saved_from_user(cls, client, user):
+        '''
+        Gets all clips 'saved' by a user.
+
+        :param client: :class:`~xbox.Client` instance
+        :param user: :class:`~xbox.resource.GamerProfile` instance
+
+        :returns: Iterator of :class:`~xbox.resource.Clip` instances
+        '''
+
+        url = 'https://gameclipsmetadata.xboxlive.com/users/xuid(%s)/saved'
+        resp = client._get(url % user.xuid)
+        data = resp.json()
+        for clip in data['gameClips']:
+            yield cls(client, user, clip)
+
+    @classmethod
+    def latest_from_user(cls, client, user):
+        '''
+        Gets all clips, saved and unsaved
+
+        :param client: :class:`~xbox.Client` instance
+        :param user: :class:`~xbox.resource.GamerProfile` instance
+
+        :returns: Iterator of :class:`~xbox.resource.Clip` instances
+        '''
+
+        url = 'https://gameclipsmetadata.xboxlive.com/users/xuid(%s)/clips'
+        resp = client._get(url % user.xuid)
+        data = resp.json()
+        for clip in data['gameClips']:
+            yield cls(client, user, clip)

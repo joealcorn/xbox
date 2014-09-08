@@ -8,3 +8,5 @@ Exceptions
 .. autoexception:: xbox.exceptions.NotFoundException
 
 .. autoexception:: xbox.exceptions.GamertagNotFound
+
+.. autoexception:: xbox.exceptions.ClipNotFound

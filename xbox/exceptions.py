@@ -22,3 +22,7 @@ class NotFoundException(XboxException):
 
 class GamertagNotFound(NotFoundException):
     pass
+
+
+class ClipNotFound(NotFoundException):
+    pass
