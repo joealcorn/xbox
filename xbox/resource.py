@@ -147,6 +147,7 @@ class Clip(object):
     :var string caption: User-defined clip caption
     :var dict thumbnails: Thumbnail URLs for the clip
     :var datetime recorded: Date and time clip was made
+    :var string media_url: Video clip URL
 
     '''
 
