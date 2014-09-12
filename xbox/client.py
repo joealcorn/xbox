@@ -4,10 +4,10 @@ import json
 
 try:
     from urlparse import urlparse, parse_qs
+    from urllib import urlencode, unquote
 except ImportError:  # py 3.x
-    from urllib.parse import urlparse, parse_qs
+    from urllib.parse import urlparse, parse_qs, urlencode, unquote
 
-from urllib import urlencode, unquote
 
 import requests
 
