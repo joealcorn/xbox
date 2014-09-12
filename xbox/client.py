@@ -1,7 +1,12 @@
 import os
 import re
 import json
-from urlparse import urlparse, parse_qs
+
+try:
+    from urlparse import urlparse, parse_qs
+except ImportError:  # py 3.x
+    from urllib.parse import urlparse, parse_qs
+
 from urllib import urlencode, unquote
 
 import requests
