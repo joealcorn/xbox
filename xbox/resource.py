@@ -188,8 +188,6 @@ class Clip(object):
         user = data[1]
         self.__init__(user, clip_data)
 
-
-
     @classmethod
     def get(cls, xuid, scid, clip_id):
         '''

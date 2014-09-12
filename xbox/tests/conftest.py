@@ -3,7 +3,7 @@ import json
 
 import pytest
 
-from xbox.resource import Clip
+from xbox.resource import Clip, GamerProfile
 
 here = lambda path: '%s/%s' % (os.path.dirname(__file__), path)
 
@@ -14,3 +14,15 @@ def clip():
         data = json.loads(f.read())
 
     return Clip(user=None, clip_data=data)
+
+
+@pytest.fixture
+def gamerprofile():
+    with open(here('files/user.json')) as f:
+        data = json.loads(f.read())
+
+    _user = data['profileUsers'][0]
+    xuid = _user['id']
+    settings = _user['settings']
+
+    return GamerProfile(xuid, settings, data)

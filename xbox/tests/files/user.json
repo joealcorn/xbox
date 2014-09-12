@@ -1,0 +1,35 @@
+{
+    "profileUsers": [
+        {
+            "hostId": null, 
+            "id": "2533274812246958", 
+            "isSponsoredUser": false, 
+            "settings": [
+                {
+                    "id": "AppDisplayName", 
+                    "value": "JoeAlcorn"
+                }, 
+                {
+                    "id": "DisplayPic", 
+                    "value": "http://compass.xbox.com/assets/70/52/7052948b-c50d-4850-baff-abbcad07b631.jpg?n=004.jpg"
+                }, 
+                {
+                    "id": "Gamerscore", 
+                    "value": "22791"
+                }, 
+                {
+                    "id": "Gamertag", 
+                    "value": "JoeAlcorn"
+                }, 
+                {
+                    "id": "PublicGamerpic", 
+                    "value": "http://images-eds.xboxlive.com/image?url=z951ykn43p4FqWbbFvR2Ec.8vbDhj8G2Xe7JngaTToBrrCmIEEXHC9UNrdJ6P7KIFXxmxGDtE9Vkd62rOpb7JcGvME9LzjeruYo3cC50qVYelz5LjucMJtB5xOqvr7WR"
+                }, 
+                {
+                    "id": "XboxOneRep", 
+                    "value": "GoodPlayer"
+                }
+            ]
+        }
+    ]
+}
