@@ -1,0 +1,44 @@
+{
+    "rating": 0.0,
+    "achievementId": "",
+    "gameClipUris": [
+        {
+            "uriType": "Download",
+            "expiration": "2014-09-12T00:50:58.7548744Z",
+            "uri": "http://gameclipscontent-d3001.xboxlive.com/asset-4b26b569-66f8-49cb-ba6c-6eefbdd57a1f/GameClip-Original.MP4?sv=2012-02-12&st=2014-09-11T23%3A45%3A58Z&se=2014-09-12T00%3A50%3A58Z&sr=c&sp=r&sig=uv7FBN5t88ABBHvBMR7qjliDyrZXM3TaqcuvHUacbIs%3D&__gda__=1410483058_34d847a7c55b76a2c873191b4b8a0d03",
+            "fileSize": 4835914
+        }
+    ],
+    "ratingCount": 0,
+    "xuid": "2533274812246958",
+    "savedByUser": false,
+    "titleId": 1813362885,
+    "state": "Published",
+    "scid": "c4060100-4951-4a51-a630-dce26c15b8c5",
+    "gameClipId": "21c9449a-615f-4ac5-b095-09af0230e90d",
+    "type": "DeveloperInitiated",
+    "clipContentAttributes": "None",
+    "dateRecorded": "2014-09-09T18:30:59Z",
+    "views": 0,
+    "titleData": "",
+    "userCaption": "",
+    "titleName": "FIFA 14",
+    "gameClipLocale": "en-GB",
+    "thumbnails": [
+        {
+            "thumbnailType": "Small",
+            "uri": "http://gameclipscontent-t3001.xboxlive.com/00090000014d6bae-21c9449a-615f-4ac5-b095-09af0230e90d/Thumbnail_Small.PNG",
+            "fileSize": 156067
+        },
+        {
+            "thumbnailType": "Large",
+            "uri": "http://gameclipscontent-t3001.xboxlive.com/00090000014d6bae-21c9449a-615f-4ac5-b095-09af0230e90d/Thumbnail_Large.PNG",
+            "fileSize": 529068
+        }
+    ],
+    "systemProperties": "85848cd9-ac23-4a2d-86c5-56b159484422;",
+    "lastModified": "2014-09-09T18:37:22.9366909Z",
+    "greatestMomentId": "DVR_Penalty_Save",
+    "durationInSeconds": 9,
+    "clipName": ""
+}

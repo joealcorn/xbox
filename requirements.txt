@@ -1,1 +1,2 @@
 requests==2.4.0
+pytest==2.6.2

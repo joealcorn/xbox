@@ -180,6 +180,16 @@ class Clip(object):
             if uri['uriType'] == 'Download':
                 self.media_url = uri['uri']
 
+    def __getstate__(self):
+        return (self.raw_json, self.user)
+
+    def __setstate__(self, data):
+        clip_data = data[0]
+        user = data[1]
+        self.__init__(user, clip_data)
+
+
+
     @classmethod
     def get(cls, xuid, scid, clip_id):
         '''
