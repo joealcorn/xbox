@@ -7,14 +7,20 @@ Welcome to python-xbox's documentation!
 =======================================
 
 Contents:
+    .. toctree::
+       :maxdepth: 2
 
-.. toctree::
-   :maxdepth: 2
+       authentication
+       resource
+       exceptions
 
-   authentication
-   resource
-   exceptions
 
+Links:
+    * `Code <https://github.com/buttscicles/xbox>`_
+    * `Issues & Bugs <https://github.com/buttscicles/xbox/issues>`_
+    * `Documentation <http://xbox.readthedocs.org/en/latest/>`_
+    * `PyPI <https://pypi.python.org/pypi/python-xbox>`_
+    * `Roadmap <https://trello.com/b/onAwDz0V/python-xbox>`_
 
 Quickstart
 ==========

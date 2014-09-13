@@ -50,5 +50,8 @@ everything else is secondary.
 
 ### Links
 
+- [Code](https://github.com/buttscicles/xbox/)
+- [Issues & Bugs](https://github.com/buttscicles/xbox/issues)
 - [Documentation](http://xbox.readthedocs.org/en/latest/)
+- [PyPI](https://pypi.python.org/pypi/python-xbox)
 - [Roadmap](https://trello.com/b/onAwDz0V/python-xbox)
