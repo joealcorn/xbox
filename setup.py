@@ -9,7 +9,7 @@ setup(
     description=(
         "A wrapper around Microsoft's undocumented Xbox one APIs"
     ),
-    packages=['xbox'],
+    packages=['xbox', 'xbox.vendor'],
     license='MIT',
     classifiers=[
         'Intended Audience :: Developers',
