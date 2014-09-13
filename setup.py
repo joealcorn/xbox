@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='python-xbox',
@@ -9,7 +9,7 @@ setup(
     description=(
         "A wrapper around Microsoft's undocumented Xbox one APIs"
     ),
-    packages=['xbox', 'xbox.vendor'],
+    packages=find_packages(exclude=["tests"]),
     license='MIT',
     classifiers=[
         'Intended Audience :: Developers',
