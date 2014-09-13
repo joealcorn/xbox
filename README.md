@@ -5,6 +5,7 @@ and APIs are likely to change. Use at your own risk.
 
 [![Documentation](https://readthedocs.org/projects/xbox/badge/?version=latest)](http://xbox.readthedocs.org/en/latest/)
 [![Build Status](https://travis-ci.org/buttscicles/xbox.svg)](https://travis-ci.org/buttscicles/xbox)
+[![Coverage Status](https://img.shields.io/coveralls/buttscicles/xbox.svg)](https://coveralls.io/r/buttscicles/xbox)
 
 ### About
 
