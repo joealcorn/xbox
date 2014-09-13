@@ -1,15 +1,20 @@
 from setuptools import setup, find_packages
 
+import xbox
+
+readme = open('README.md')
+
 setup(
     name='python-xbox',
-    version='0.0.1',
+    version=xbox.__VERSION__,
     url='https://github.com/buttscicles/xbox/',
     author='Joe Alcorn',
     author_email='joealcorn123@gmail.com',
-    description=(
-        "A wrapper around Microsoft's undocumented Xbox one APIs"
-    ),
+    description="A wrapper around Microsoft's undocumented Xbox One APIs",
+    long_description=readme.read(),
     packages=find_packages(exclude=["tests"]),
+    keywords='xbox one microsoft',
+    tests_require=['pytest==2.6.2', 'tox==1.7.3'],
     license='MIT',
     classifiers=[
         'Intended Audience :: Developers',
@@ -27,3 +32,4 @@ setup(
     ],
 )
 
+readme.close()
