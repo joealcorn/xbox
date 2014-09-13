@@ -1,6 +1,6 @@
 import pickle
 
-import six
+from xbox.vendor import six
 
 
 def test_pickle_clip(clip):

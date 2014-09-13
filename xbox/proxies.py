@@ -1,6 +1,6 @@
 import operator
 
-import six
+from xbox.vendor import six
 
 
 def object_proxy(func):
