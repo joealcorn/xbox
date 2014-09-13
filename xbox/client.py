@@ -9,7 +9,7 @@ except ImportError:  # py 3.x
     from urllib.parse import urlparse, parse_qs, urlencode, unquote
 
 
-import requests
+from xbox.vendor import requests
 
 from .exceptions import AuthenticationException
 
