@@ -1,5 +1,7 @@
 import operator
 
+import six
+
 
 def object_proxy(func):
     def inner(self, *a, **kw):
@@ -18,7 +20,7 @@ class LazyProxy(object):
     _resolved = False
 
     def __init__(self, **kw):
-        for key, val in kw.iteritems():
+        for key, val in six.iteritems(kw):
             setattr(self, key, val)
 
     def resolve(self):
@@ -28,9 +30,14 @@ class LazyProxy(object):
     __delattr__ = object_proxy(delattr)
     __dir__ = object_proxy(dir)
 
-    __str__ = object_proxy(str)
-    __unicode__ = object_proxy(unicode)
-    __nonzero__ = object_proxy(bool)
+    if six.PY3:
+        __bytes__ = object_proxy(bytes)
+        __str__ = object_proxy(str)
+        __bool__ = object_proxy(bool)
+    else:
+        __str__ = object_proxy(str)
+        __unicode__ = object_proxy(unicode)
+        __nonzero__ = object_proxy(bool)
 
     # pretend to be the proxied class in case anything cares about this
     __class__ = property(object_proxy(operator.attrgetter("__class__")))

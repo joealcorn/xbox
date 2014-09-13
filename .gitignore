@@ -2,3 +2,4 @@
 .DS_store
 docs/build/
 *.egg-info
+.tox/
