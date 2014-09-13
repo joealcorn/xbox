@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from . import client
+from .decorators import authenticates
 from .exceptions import GamertagNotFound, ClipNotFound
 from .proxies import UserProxy
 from .utils import DotNotationDict
@@ -66,6 +67,7 @@ class GamerProfile(object):
             raise GamertagNotFound('No such user: %s' % gamertag)
 
     @classmethod
+    @authenticates
     def _fetch(cls, base_url):
         settings = [
             'AppDisplayName',
@@ -189,6 +191,7 @@ class Clip(object):
         self.__init__(user, clip_data)
 
     @classmethod
+    @authenticates
     def get(cls, xuid, scid, clip_id):
         '''
         Gets a specific game clip
@@ -221,6 +224,7 @@ class Clip(object):
         return cls(user, data['gameClip'])
 
     @classmethod
+    @authenticates
     def saved_from_user(cls, user):
         '''
         Gets all clips 'saved' by a user.
@@ -237,6 +241,7 @@ class Clip(object):
             yield cls(user, clip)
 
     @classmethod
+    @authenticates
     def latest_from_user(cls, user):
         '''
         Gets all clips, saved and unsaved
