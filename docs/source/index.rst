@@ -16,16 +16,25 @@ Contents:
    exceptions
 
 
+Quickstart
+==========
+
+.. code-block:: python
+
+    >>> import xbox
+
+    >>> # authenticate
+    >>> xbox.client.authenticate(email_address, password)
+
+    >>> # get a user
+    >>> gt = xbox.GamerProfile.from_gamertag('JoeAlcorn')
+    >>> gt.gamerscore
+    22056
+    >>> gt.gamerpic
+    'http://images-eds.xboxlive.com/image?url=z951ykn43p4FqWbbFvR2Ec.8vbDhj8G2Xe7JngaTToBrrCmIEEXHC9UNrdJ6P7KIFXxmxGDtE9Vkd62rOpb7JcGvME9LzjeruYo3cC50qVYelz5LjucMJtB5xOqvr7WR'
+
+
+
 .. autoclass:: xbox.Client
     :members:
-
-
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
 
