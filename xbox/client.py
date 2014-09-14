@@ -89,7 +89,7 @@ class Client(object):
         if password is None:
             password = os.environ.get('MS_PASSWD')
 
-        if not login or not password or True:
+        if not login or not password:
             msg = (
                 'Authentication credentials required. Please refer to '
                 'http://xbox.readthedocs.org/en/latest/authentication.html'
