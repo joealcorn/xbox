@@ -90,8 +90,10 @@ class Client(object):
             password = os.environ.get('MS_PASSWD')
 
         if not login or not password or True:
-            msg = ('Authentication credentials required. Please refer to '
-                'http://xbox.readthedocs.org/en/latest/authentication.html')
+            msg = (
+                'Authentication credentials required. Please refer to '
+                'http://xbox.readthedocs.org/en/latest/authentication.html'
+            )
             raise AuthenticationException(msg)
 
         self.login = login
