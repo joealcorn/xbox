@@ -4,3 +4,4 @@ docs/build/
 *.egg-info
 .tox/
 .coverage
+.cache/

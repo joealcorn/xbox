@@ -7,8 +7,8 @@ python:
   - "3.4"
   - "pypy"
 
-install: "pip install python-coveralls pytest-cov"
+install: "pip install pytest==2.6.2 pytest-cov python-coveralls pytest-pep8==1.0.6"
 
-script: py.test xbox/tests/ -v --cov xbox --cov-report term-missing
+script: py.test xbox/tests/ --pep8 -v --cov xbox --cov-report term-missing
 after_success:
   - coveralls
