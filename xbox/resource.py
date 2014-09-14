@@ -172,12 +172,17 @@ class Clip(object):
             clip_data['dateRecorded'], '%Y-%m-%dT%H:%M:%SZ'
         )
 
+        # thumbnails and media_url may not yet exist
+        # if the state of the clip is PendingUpload
+        self.thumbnails.small = None
+        self.thumbnails.large = None
         for thumb in clip_data['thumbnails']:
             if thumb['thumbnailType'] == 'Small':
                 self.thumbnails.small = thumb['uri']
             elif thumb['thumbnailType'] == 'Large':
                 self.thumbnails.large = thumb['uri']
 
+        self.media_url = None
         for uri in clip_data['gameClipUris']:
             if uri['uriType'] == 'Download':
                 self.media_url = uri['uri']
@@ -225,12 +230,14 @@ class Clip(object):
 
     @classmethod
     @authenticates
-    def saved_from_user(cls, user):
+    def saved_from_user(cls, user, include_pending=False):
         '''
         Gets all clips 'saved' by a user.
 
         :param user: :class:`~xbox.GamerProfile` instance
-
+        :param bool include_pending: whether to ignore clips that are not
+            yet uploaded. These clips will have thumbnails and media_url
+            set to ``None``
         :returns: Iterator of :class:`~xbox.Clip` instances
         '''
 
@@ -238,15 +245,19 @@ class Clip(object):
         resp = client._get(url % user.xuid)
         data = resp.json()
         for clip in data['gameClips']:
-            yield cls(user, clip)
+            if clip['state'] != 'PendingUpload' or include_pending:
+                yield cls(user, clip)
 
     @classmethod
     @authenticates
-    def latest_from_user(cls, user):
+    def latest_from_user(cls, user, include_pending=False):
         '''
         Gets all clips, saved and unsaved
 
         :param user: :class:`~xbox.GamerProfile` instance
+        :param bool include_pending: whether to ignore clips that are not
+            yet uploaded. These clips will have thumbnails and media_url
+            set to ``None``
 
         :returns: Iterator of :class:`~xbox.Clip` instances
         '''
@@ -255,4 +266,5 @@ class Clip(object):
         resp = client._get(url % user.xuid)
         data = resp.json()
         for clip in data['gameClips']:
-            yield cls(user, clip)
+            if clip['state'] != 'PendingUpload' or include_pending:
+                yield cls(user, clip)
