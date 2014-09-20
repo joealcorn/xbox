@@ -7,7 +7,7 @@ python:
   - "3.4"
   - "pypy"
 
-install: "pip install pytest==2.6.2 pytest-cov python-coveralls pytest-pep8==1.0.6 -egit+git@github.com:sigmavirus24/betamax.git@acb3622#egg=betamax"
+install: "pip install pytest==2.6.2 pytest-cov python-coveralls pytest-pep8==1.0.6 -egit+https://github.com/sigmavirus24/betamax.git@acb3622#egg=betamax"
 
 script: py.test xbox/tests/ --pep8 -v --cov xbox --cov-report term-missing
 after_success:
