@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from . import client
+import xbox
 from .decorators import authenticates
 from .exceptions import GamertagNotFound, ClipNotFound
 from .proxies import UserProxy
@@ -81,7 +81,7 @@ class GamerProfile(object):
         qs = '?settings=%s' % ','.join(settings)
         headers = {'x-xbl-contract-version': 2}
 
-        resp = client._get(base_url + qs, headers=headers)
+        resp = xbox.client._get(base_url + qs, headers=headers)
         if resp.status_code == 404:
             raise GamertagNotFound('No such user')
 
@@ -213,7 +213,7 @@ class Clip(object):
                 'clip_id': clip_id,
             }
         )
-        resp = client._get(url)
+        resp = xbox.client._get(url)
         if resp.status_code == 404:
             msg = 'Could not find clip: xuid=%s, scid=%s, clip_id=%s' % (
                 xuid, scid, clip_id,
@@ -242,7 +242,7 @@ class Clip(object):
         '''
 
         url = 'https://gameclipsmetadata.xboxlive.com/users/xuid(%s)/saved'
-        resp = client._get(url % user.xuid)
+        resp = xbox.client._get(url % user.xuid)
         data = resp.json()
         for clip in data['gameClips']:
             if clip['state'] != 'PendingUpload' or include_pending:
@@ -263,7 +263,7 @@ class Clip(object):
         '''
 
         url = 'https://gameclipsmetadata.xboxlive.com/users/xuid(%s)/clips'
-        resp = client._get(url % user.xuid)
+        resp = xbox.client._get(url % user.xuid)
         data = resp.json()
         for clip in data['gameClips']:
             if clip['state'] != 'PendingUpload' or include_pending:
