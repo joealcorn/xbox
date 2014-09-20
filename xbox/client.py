@@ -115,8 +115,10 @@ class Client(object):
         }))
         resp = self.session.get(base_url + qs)
 
-        url_re = r'urlPost:\'([A-Za-z0-9:\?_\-\.&/=]+)'
-        ppft_re = r'sFTTag:\'.*value="(.*)"/>'
+        # python 3.x will error if this string is not a
+        # bytes-like object
+        url_re = b'urlPost:\\\'([A-Za-z0-9:\?_\-\.&/=]+)'
+        ppft_re = b'sFTTag:\\\'.*value="(.*)"/>'
 
         login_post_url = re.search(url_re, resp.content).group(1)
         post_data = {
