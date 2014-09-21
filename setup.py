@@ -5,7 +5,7 @@ import xbox
 readme = open('README.md')
 
 setup(
-    name='python-xbox',
+    name='xbox',
     version=xbox.__VERSION__,
     url='https://github.com/buttscicles/xbox/',
     author='Joe Alcorn',
