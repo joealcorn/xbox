@@ -161,7 +161,6 @@ class Clip(object):
         self.clip_id = clip_data['gameClipId']
         self.scid = clip_data['scid']
         self.duration = clip_data['durationInSeconds']
-        self.user = user
         self.name = clip_data['clipName']
         self.saved = clip_data['savedByUser']
         self.state = clip_data['state']
@@ -216,6 +215,10 @@ class Clip(object):
             }
         )
         resp = xbox.client._get(url)
+
+        # scid does not seem to matter when fetching clips,
+        # as long as it looks like a uuid it should be fine.
+        # perhaps we'll raise an exception in future
         if resp.status_code == 404:
             msg = 'Could not find clip: xuid=%s, scid=%s, clip_id=%s' % (
                 xuid, scid, clip_id,
