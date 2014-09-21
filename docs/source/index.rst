@@ -22,6 +22,13 @@ Links:
     * `PyPI <https://pypi.python.org/pypi/xbox>`_
     * `Roadmap <https://trello.com/b/onAwDz0V/python-xbox>`_
 
+Installation
+=============
+
+Install the latest released version using ``pip``
+
+``$ pip install xbox``
+
 Quickstart
 ==========
 

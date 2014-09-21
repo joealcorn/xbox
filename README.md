@@ -17,6 +17,12 @@ in use by the Xbox One and related apps.
 The main goals of this project are to achieve a decent, usable API,
 everything else is secondary.
 
+### Installation
+
+Install using `pip`
+
+`$ pip install xbox`
+
 ### Usage
 
 ```python
