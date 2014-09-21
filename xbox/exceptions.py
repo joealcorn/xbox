@@ -13,6 +13,15 @@ class AuthenticationException(XboxException):
     '''
 
 
+class InvalidRequest(XboxException):
+    '''
+    Something is wrong with the request
+    '''
+    def __init__(self, message, response):
+        self.message = message
+        self.response = response
+
+
 class NotFoundException(XboxException):
     '''
     Any exception raised due to a resource

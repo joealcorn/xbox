@@ -2,7 +2,7 @@ from datetime import datetime
 
 import xbox
 from .decorators import authenticates
-from .exceptions import GamertagNotFound, ClipNotFound
+from .exceptions import GamertagNotFound, ClipNotFound, InvalidRequest
 from .proxies import UserProxy
 from .utils import DotNotationDict
 
@@ -45,7 +45,9 @@ class GamerProfile(object):
         url = 'https://profile.xboxlive.com/users/xuid(%s)/profile/settings' % xuid
         try:
             return cls._fetch(url)
-        except GamertagNotFound:
+        except (GamertagNotFound, InvalidRequest):
+            # this endpoint seems to return 400 when the resource
+            # does not exist
             raise GamertagNotFound('No such user: %s' % xuid)
 
     @classmethod

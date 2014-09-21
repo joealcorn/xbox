@@ -11,7 +11,7 @@ except ImportError:  # py 3.x
 
 from xbox.vendor import requests
 
-from .exceptions import AuthenticationException
+from .exceptions import AuthenticationException, InvalidRequest
 
 
 class Client(object):
@@ -31,6 +31,14 @@ class Client(object):
         self.session = requests.session()
         self.authenticated = False
 
+    def _raise_for_status(self, response):
+        if response.status_code == 400:
+            try:
+                description = response.json()['description']
+            except:
+                description = 'Invalid request'
+            raise InvalidRequest(description, response=response)
+
     def _get(self, url, **kw):
         '''
         Makes a GET request, setting Authorization
@@ -41,7 +49,9 @@ class Client(object):
         headers.setdefault('Accept', 'application/json')
         headers.setdefault('Authorization', self.AUTHORIZATION_HEADER)
         kw['headers'] = headers
-        return self.session.get(url, **kw)
+        resp = self.session.get(url, **kw)
+        self._raise_for_status(resp)
+        return resp
 
     def _post(self, url, **kw):
         '''
@@ -51,7 +61,9 @@ class Client(object):
         headers = kw.pop('headers', {})
         headers.setdefault('Authorization', self.AUTHORIZATION_HEADER)
         kw['headers'] = headers
-        return self.session.post(url, **kw)
+        resp = self.session.post(url, **kw)
+        self._raise_for_status(resp)
+        return resp
 
     def _post_json(self, url, data, **kw):
         '''
