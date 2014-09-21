@@ -1,4 +1,4 @@
-.PHONY: requests six
+.PHONY: requests six release
 
 requests:
 	rm -fr xbox/vendor/requests
@@ -11,3 +11,8 @@ six:
 	hg clone ssh://hg@bitbucket.org/gutworth/six
 	mv six/six.py xbox/vendor
 	rm -fr six
+
+release:
+	python setup.py register
+	python setup.py sdist bdist_wheel
+	twine upload dist/*
