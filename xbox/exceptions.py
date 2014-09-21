@@ -16,6 +16,10 @@ class AuthenticationException(XboxException):
 class InvalidRequest(XboxException):
     '''
     Something is wrong with the request
+
+    :var message: Error message returned by server is possible
+    :var response: requests response object
+
     '''
     def __init__(self, message, response):
         self.message = message
