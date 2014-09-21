@@ -10,7 +10,10 @@ class DotNotationDict(dict):
     '''
 
     def __getattr__(self, key):
-        return self[key]
+        try:
+            return self[key]
+        except KeyError:
+            raise AttributeError("DotNotationDict has no attribute '%s'" % key)
 
     def __setattr__(self, key, value):
         self[key] = value
