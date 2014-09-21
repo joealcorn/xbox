@@ -2,7 +2,8 @@ from setuptools import setup, find_packages
 
 import xbox
 
-readme = open('README.md')
+with open('README.md') as readme_file:
+    readme = readme_file.read()
 
 setup(
     name='xbox',
@@ -11,7 +12,7 @@ setup(
     author='Joe Alcorn',
     author_email='joealcorn123@gmail.com',
     description="A wrapper around Microsoft's undocumented Xbox One APIs",
-    long_description=readme.read(),
+    long_description=readme,
     packages=find_packages(exclude=["tests"]),
     keywords='xbox one microsoft',
     tests_require=['pytest==2.6.2', 'tox==1.7.3'],
@@ -31,5 +32,3 @@ setup(
         'Programming Language :: Python :: Implementation :: PyPy',
     ],
 )
-
-readme.close()
