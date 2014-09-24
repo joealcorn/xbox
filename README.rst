@@ -74,7 +74,7 @@ Links
 
 .. |Documentation| image:: https://readthedocs.org/projects/xbox/badge/?version=latest
    :target: http://xbox.readthedocs.org/en/latest/
-.. |Build Status| image:: http://img.shields.io/travis/buttscicles/xbox.svg
+.. |Build Status| image:: https://img.shields.io/travis/buttscicles/xbox.svg
    :target: https://travis-ci.org/buttscicles/xbox
 .. |Coverage Status| image:: https://img.shields.io/coveralls/buttscicles/xbox.svg
    :target: https://coveralls.io/r/buttscicles/xbox
