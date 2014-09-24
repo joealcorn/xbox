@@ -246,7 +246,7 @@ class Clip(object):
         :returns: Iterator of :class:`~xbox.Clip` instances
         '''
 
-        url = 'https://gameclipsmetadata.xboxlive.com/users/xuid(%s)/saved'
+        url = 'https://gameclipsmetadata.xboxlive.com/users/xuid(%s)/clips/saved'
         resp = xbox.client._get(url % user.xuid)
         data = resp.json()
         for clip in data['gameClips']:

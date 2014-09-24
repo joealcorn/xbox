@@ -1,6 +1,7 @@
 from datetime import datetime
 import json
 import os
+import types
 
 from betamax import Betamax
 import pytest
@@ -90,3 +91,42 @@ class TestClips(TestBase):
             # incorrect clip_id
             with pytest.raises(xbox.exceptions.ClipNotFound):
                 xbox.Clip.get(xuid, scid, '237fc073-7b48-4555-a40f-adc1616d7b62')
+
+    def test_get_latest_from_user(self):
+        with Betamax(xbox.client.session) as vcr:
+            match_on = ['uri', 'method', 'headers', 'body']
+            vcr.use_cassette(
+                'get_latest_clips_from_user',
+                match_on=match_on,
+                record_mode='always',
+            )
+
+            os.environ['MS_LOGIN'] = 'pyxb-testing@outlook.com'
+            os.environ['MS_PASSWD'] = 'password'
+
+            gt = xbox.GamerProfile.from_gamertag('JoeAlcorn')
+            clips = xbox.Clip.latest_from_user(gt)
+            assert isinstance(clips, types.GeneratorType)
+
+            clips = list(clips)
+            assert all([isinstance(c, xbox.Clip) for c in clips])
+
+    def test_get_saved_from_user(self):
+        with Betamax(xbox.client.session) as vcr:
+            match_on = ['uri', 'method', 'headers', 'body']
+            vcr.use_cassette(
+                'get_saved_clips_from_user',
+                match_on=match_on,
+                record_mode='always',
+            )
+
+            os.environ['MS_LOGIN'] = 'pyxb-testing@outlook.com'
+            os.environ['MS_PASSWD'] = 'password'
+
+            gt = xbox.GamerProfile.from_gamertag('JoeAlcorn')
+            # ensure there are actually some saved clips
+            latest = xbox.Clip.latest_from_user(gt)
+            assert not all([c.saved for c in latest])
+
+            saved = xbox.Clip.saved_from_user(gt)
+            assert all([c.saved for c in saved])
