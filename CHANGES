@@ -1,10 +1,14 @@
-0.1.1
+0.1.2 (unreleased)
 =======
+Hit correct endpoint in Clip.saved_from_user
+
+0.1.1 2014-09-21
+=================
 Raise AttributeError in DotNotationDict instead of allowing KeyError to bubble up (#2, 5703903), thanks to svisser for reporting.
 
 
-0.1.0
-========
+0.1.0 (2014-09-21)
+===================
 Initial release.
 Added support for fetching gamer profile
 Added support for fetching clips
