@@ -4,7 +4,7 @@ Python Xbox API client
 This is unreleased software. As such things are may be broken and APIs
 are likely to change. Use at your own risk.
 
-|Documentation| |Build Status| |Coverage Status|
+|Documentation| |Build Status| |Coverage Status| |PyPI Version|
 
 About
 ~~~~~
@@ -78,3 +78,5 @@ Links
    :target: https://travis-ci.org/buttscicles/xbox
 .. |Coverage Status| image:: https://img.shields.io/coveralls/buttscicles/xbox.svg
    :target: https://coveralls.io/r/buttscicles/xbox
+.. |PyPI Version| image:: http://img.shields.io/pypi/v/xbox.svg
+   :target: https://pypi.python.org/pypi/xbox
