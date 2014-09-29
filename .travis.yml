@@ -8,7 +8,7 @@ python:
   - "pypy"
   - "pypy3"
 
-install: "pip install -r test-requirements.txt pytest-cov python-coveralls"
+install: "pip install pytest==2.6.2 pytest-cov python-coveralls pytest-pep8==1.0.6 betamax==0.4.1"
 
 script: py.test xbox/ --pep8 -v --cov xbox --cov-report term-missing
 after_success:
