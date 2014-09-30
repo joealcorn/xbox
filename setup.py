@@ -14,6 +14,9 @@ setup(
     description="A wrapper around Microsoft's undocumented Xbox One APIs",
     long_description=readme,
     packages=find_packages(exclude=["tests"]),
+    package_data={
+        'xbox.vendor.requests': ['*.pem'],
+    },
     keywords='xbox one microsoft',
     tests_require=['pytest==2.6.2', 'tox==1.7.3'],
     license='MIT',
